@@ -1,7 +1,7 @@
 /**
  * @todo
  * [ ] refactor: findWeekById is redundant since upsertWeek is doing the same
- *
+ * [ ] handle deleteById partial error
  */
 
 import * as shiftRepository from "../database/default/repository/shiftRepository";
@@ -53,8 +53,6 @@ export const updateById = async (
 ): Promise<Shift> => {
   const week = await findWeekById(payload.weekId);
 
-  console.log("week", week);
-
   if (!week) {
     upsertWeek({ id: payload.weekId });
   } else {
@@ -67,6 +65,18 @@ export const updateById = async (
     ...payload,
     isPublished: week?.isPublished ?? false,
   });
+};
+
+export const upsert = async (
+  payload: IUpdateShift | IUpdateShift[]
+): Promise<Shift | Shift[]> => {
+  const shift = new Shift();
+
+  const updatedPayload = Array.isArray(payload)
+    ? payload.map((p) => ({ ...shift, ...p }))
+    : { ...shift, ...payload };
+
+  return shiftRepository.upsert(updatedPayload);
 };
 
 export const deleteById = async (id: string | string[]) => {
