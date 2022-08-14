@@ -46,12 +46,6 @@ export default class Shift extends BaseTimestamp {
   weekId: string;
 
   @ManyToOne((type) => Week)
-  @JoinColumn([
-    { name: "weekId", referencedColumnName: "id" },
-    // { name: "isPublished", referencedColumnName: "id" },
-  ])
+  @JoinColumn({ name: "weekId" })
   week: Week;
-
-  // @ManyToOne(() => Week, (week) => week.shifts)
-  // week: Week;
 }
