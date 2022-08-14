@@ -34,7 +34,7 @@ export const create = async (payload: ICreateShift): Promise<Shift> => {
   const week = await findWeekById(payload.weekId);
 
   if (!week) {
-    upsertWeek({ id: payload.weekId });
+    await upsertWeek({ id: payload.weekId });
   } else {
     if (week.isPublished) {
       throw new Error("Cannot create shift in published week");
@@ -54,7 +54,7 @@ export const updateById = async (
   const week = await findWeekById(payload.weekId);
 
   if (!week) {
-    upsertWeek({ id: payload.weekId });
+    await upsertWeek({ id: payload.weekId });
   } else {
     if (week.isPublished) {
       throw new Error("Cannot create shift in published week");

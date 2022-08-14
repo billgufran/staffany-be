@@ -7,6 +7,7 @@ export const createShiftDto = Joi.object({
   date: Joi.date().required(),
   startTime: Joi.string().regex(timeRegex).required(),
   endTime: Joi.string().regex(timeRegex).required(),
+  weekId: Joi.string(),
 });
 
 export const updateShiftDto = Joi.object({
@@ -14,6 +15,5 @@ export const updateShiftDto = Joi.object({
   date: Joi.date(),
   startTime: Joi.string().regex(timeRegex),
   endTime: Joi.string().regex(timeRegex),
-  // isPublished: Joi.boolean(),
   weekId: Joi.string(),
 });
