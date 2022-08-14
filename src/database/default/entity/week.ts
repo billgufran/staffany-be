@@ -11,9 +11,10 @@ export default class Week extends BaseTimestamp {
     type: "timestamp",
     nullable: true,
   })
-  publishedDate: number;
+  publishedDate: string;
 
   @Column({
+    nullable: true,
     default: false,
   })
   isPublished: boolean;
