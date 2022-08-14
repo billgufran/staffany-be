@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { BaseTimestamp } from "./baseTimestamp";
+import Week from "./week";
 
 @Entity()
 export default class Shift extends BaseTimestamp {
@@ -24,8 +25,6 @@ export default class Shift extends BaseTimestamp {
   })
   endTime: string;
 
-  @Column({
-    nullable: true,
-  })
-  isPublished: boolean;
+  @ManyToOne(() => Week, (week) => week.shifts)
+  week: Week;
 }

@@ -20,7 +20,6 @@ export const create = async (payload: ICreateShift): Promise<Shift> => {
   shift.date = payload.date;
   shift.startTime = payload.startTime;
   shift.endTime = payload.endTime;
-  shift.isPublished = payload.isPublished;
 
   return shiftRepository.create(shift);
 };
