@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
 import { BaseTimestamp } from "./baseTimestamp";
 import Week from "./week";
 
@@ -25,6 +31,27 @@ export default class Shift extends BaseTimestamp {
   })
   endTime: string;
 
-  @ManyToOne(() => Week, (week) => week.shifts)
+  @Column({
+    nullable: true,
+    default: false,
+    name: "isPublished",
+  })
+  isPublished: boolean;
+
+  // add column explicitly here
+  @Column({
+    nullable: true,
+    name: "weekId",
+  })
+  weekId: string;
+
+  @ManyToOne((type) => Week)
+  @JoinColumn([
+    { name: "weekId", referencedColumnName: "id" },
+    // { name: "isPublished", referencedColumnName: "id" },
+  ])
   week: Week;
+
+  // @ManyToOne(() => Week, (week) => week.shifts)
+  // week: Week;
 }

@@ -19,7 +19,7 @@ export const upsert = async (payload: IUpsertWeek): Promise<Week> => {
 
   const currentWeek = await findById(payload.id);
 
-  if (currentWeek.isPublished) {
+  if (currentWeek?.isPublished) {
     throw new Error("Cannot update published week");
   }
 

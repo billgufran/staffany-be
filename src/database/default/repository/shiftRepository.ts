@@ -28,6 +28,16 @@ export const findById = async (
   return data;
 };
 
+export const findByIds = async (
+  ids: string[],
+  opts?: FindOneOptions<Shift>
+): Promise<Shift[]> => {
+  logger.info("Find by ids");
+  const repository = getRepository(Shift);
+  const data = await repository.findByIds(ids, opts);
+  return data;
+};
+
 export const findOne = async (
   where?: FindConditions<Shift>,
   opts?: FindOneOptions<Shift>
