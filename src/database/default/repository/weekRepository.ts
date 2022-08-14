@@ -25,7 +25,10 @@ export const findById = async (
 ): Promise<Week> => {
   logger.info("Find by id");
   const repository = getRepository(Week);
-  const data = await repository.findOne(id, opts);
+  const data = await repository.findOne(id, {
+    relations: ["shifts"],
+    ...opts,
+  });
   return data;
 };
 
