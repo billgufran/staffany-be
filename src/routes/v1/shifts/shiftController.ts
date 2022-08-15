@@ -67,8 +67,6 @@ export const updateById = async (req: Request, h: ResponseToolkit) => {
     const id = req.params.id;
     const body = req.payload as IUpdateShift;
 
-    logger.info(JSON.stringify(body));
-
     const data = await shiftUsecase.updateById(id, body);
     const res: ISuccessResponse = {
       statusCode: 200,

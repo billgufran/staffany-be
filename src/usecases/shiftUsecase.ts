@@ -43,7 +43,6 @@ export const create = async (payload: ICreateShift): Promise<Shift> => {
 
   if (payload?.weekId) {
     const week = await findWeekById(payload.weekId);
-    console.log("findWeek ", week);
 
     if (!week) {
       await upsertWeek({ id: payload.weekId });
@@ -70,13 +69,12 @@ export const updateById = async (
     endTime: payload.endTime,
   });
 
-  if (clashingShift.id !== id) {
+  if (clashingShift && clashingShift.id !== id) {
     throw new Error("Cannot update shift that clashes with another shift");
   }
 
   if (payload?.weekId) {
     const week = await findWeekById(payload.weekId);
-    console.log("findWeek ", week);
 
     if (!week) {
       await upsertWeek({ id: payload.weekId });
@@ -116,9 +114,6 @@ export const deleteById = async (id: string | string[]) => {
       unpublishedShift.push(shift.id);
     }
   });
-
-  console.log("publishedShift ", publishedShift);
-  console.log("unpublishedShift ", unpublishedShift);
 
   if (publishedShift.length > 0) {
     throw new Error("Cannot delete published shift");

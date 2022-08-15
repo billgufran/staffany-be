@@ -44,7 +44,6 @@ export const upsert = async (req: Request, h: ResponseToolkit) => {
   logger.info("Upsert week");
   try {
     const body = req.payload as IUpsertWeek;
-    console.log(body);
     const data = await weekUsecase.upsert(body);
     const res: ISuccessResponse = {
       statusCode: 200,
