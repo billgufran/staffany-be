@@ -31,16 +31,6 @@ export const findByIds = async (
 export const create = async (payload: ICreateShift): Promise<Shift> => {
   const shift = new Shift();
 
-  const clashingShift = await shiftRepository.findOne({
-    date: payload.date,
-    startTime: payload.startTime,
-    endTime: payload.endTime,
-  });
-
-  if (clashingShift) {
-    throw new Error("Cannot create shift that clashes with another shift");
-  }
-
   if (payload?.weekId) {
     const week = await findWeekById(payload.weekId);
 
@@ -63,16 +53,6 @@ export const updateById = async (
   id: string,
   payload: IUpdateShift
 ): Promise<Shift> => {
-  const clashingShift = await shiftRepository.findOne({
-    date: payload.date,
-    startTime: payload.startTime,
-    endTime: payload.endTime,
-  });
-
-  if (clashingShift && clashingShift.id !== id) {
-    throw new Error("Cannot update shift that clashes with another shift");
-  }
-
   if (payload?.weekId) {
     const week = await findWeekById(payload.weekId);
 

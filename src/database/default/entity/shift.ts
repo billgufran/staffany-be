@@ -4,11 +4,13 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  Exclusion,
 } from "typeorm";
 import { BaseTimestamp } from "./baseTimestamp";
 import Week from "./week";
 
 @Entity()
+@Exclusion(`USING gist (tsrange("startTime", "endTime", '[]') WITH &&)`)
 export default class Shift extends BaseTimestamp {
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -22,12 +24,12 @@ export default class Shift extends BaseTimestamp {
   date: string;
 
   @Column({
-    type: "time",
+    type: "timestamp",
   })
   startTime: string;
 
   @Column({
-    type: "time",
+    type: "timestamp",
   })
   endTime: string;
 
