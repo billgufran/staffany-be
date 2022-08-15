@@ -67,15 +67,13 @@ export const updateById = async (
 
 export const upsert = async (
   payload: QueryDeepPartialEntity<Shift> | QueryDeepPartialEntity<Shift>[]
-): Promise<Shift | Shift[]> => {
+): Promise<Shift[]> => {
   logger.info("Upsert");
-  logger.info(JSON.stringify(payload));
 
   const repository = getRepository(Shift);
-  await repository.upsert(payload, ["id"]);
-  return Array.isArray(payload)
-    ? findByIds(payload.map((p) => p.id as string))
-    : findById(payload.id as string);
+  const data = await repository.upsert(payload, ["id"]);
+
+  return data.generatedMaps as Shift[];
 };
 
 export const deleteById = async (
