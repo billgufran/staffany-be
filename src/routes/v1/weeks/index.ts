@@ -30,11 +30,11 @@ export default function (server: Server, basePath: string) {
 
   server.route({
     method: "POST",
-    path: basePath,
+    path: basePath + "/upsert",
     handler: weekController.upsert,
     options: {
-      description: "Insert and update week",
-      notes: "Insert and update week",
+      description: "Insert or update week",
+      notes: "Insert or update week",
       tags: ["api", "week"],
       validate: {
         payload: upsertWeekDto,
