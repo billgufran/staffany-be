@@ -10,7 +10,10 @@ import { BaseTimestamp } from "./baseTimestamp";
 import Week from "./week";
 
 @Entity()
-@Exclusion(`USING gist (tsrange("startTime", "endTime", '[]') WITH &&)`)
+@Exclusion(
+  "clash_shift_constraint",
+  `USING gist (tsrange("startTime", "endTime", '[]') WITH &&)`
+)
 export default class Shift extends BaseTimestamp {
   @PrimaryGeneratedColumn("uuid")
   id: string;
