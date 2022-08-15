@@ -31,13 +31,26 @@ export const findByIds = async (
 export const create = async (payload: ICreateShift): Promise<Shift> => {
   const shift = new Shift();
 
-  const week = await findWeekById(payload.weekId);
+  const clashingShift = await shiftRepository.findOne({
+    date: payload.date,
+    startTime: payload.startTime,
+    endTime: payload.endTime,
+  });
 
-  if (!week) {
-    await upsertWeek({ id: payload.weekId });
-  } else {
-    if (week.isPublished) {
-      throw new Error("Cannot create shift in published week");
+  if (clashingShift) {
+    throw new Error("Cannot create shift that clashes with another shift");
+  }
+
+  if (payload?.weekId) {
+    const week = await findWeekById(payload.weekId);
+    console.log("findWeek ", week);
+
+    if (!week) {
+      await upsertWeek({ id: payload.weekId });
+    } else {
+      if (week.isPublished) {
+        throw new Error("Cannot create shift in published week");
+      }
     }
   }
 
@@ -51,19 +64,31 @@ export const updateById = async (
   id: string,
   payload: IUpdateShift
 ): Promise<Shift> => {
-  const week = await findWeekById(payload.weekId);
+  const clashingShift = await shiftRepository.findOne({
+    date: payload.date,
+    startTime: payload.startTime,
+    endTime: payload.endTime,
+  });
 
-  if (!week) {
-    await upsertWeek({ id: payload.weekId });
-  } else {
-    if (week.isPublished) {
-      throw new Error("Cannot create shift in published week");
+  if (clashingShift.id !== id) {
+    throw new Error("Cannot update shift that clashes with another shift");
+  }
+
+  if (payload?.weekId) {
+    const week = await findWeekById(payload.weekId);
+    console.log("findWeek ", week);
+
+    if (!week) {
+      await upsertWeek({ id: payload.weekId });
+    } else {
+      if (week.isPublished) {
+        throw new Error("Cannot update shift in published week");
+      }
     }
   }
 
   return shiftRepository.updateById(id, {
     ...payload,
-    isPublished: week?.isPublished ?? false,
   });
 };
 
