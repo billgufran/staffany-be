@@ -11,7 +11,7 @@ export default class Week extends BaseTimestamp {
     type: "timestamp",
     nullable: true,
   })
-  publishedDate: string;
+  publishedAt: string;
 
   @Column({
     nullable: true,

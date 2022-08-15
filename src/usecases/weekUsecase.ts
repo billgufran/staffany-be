@@ -40,7 +40,7 @@ export const upsert = async (payload: IUpsertWeek): Promise<Week> => {
   return weekRepository.upsert({
     id: payload.id,
     isPublished: payload.isPublished,
-    publishedDate: payload.publishedDate,
+    publishedAt: payload.publishedAt,
     ...week,
   });
 };
