@@ -44,7 +44,6 @@ export const findOne = async (
 
 export const upsert = async (payload: Week): Promise<Week> => {
   logger.info("Upsert");
-  logger.info(JSON.stringify(payload));
 
   const repository = getRepository(Week);
   await repository.upsert(payload, ["id"]);
