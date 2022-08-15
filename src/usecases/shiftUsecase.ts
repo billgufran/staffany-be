@@ -1,6 +1,5 @@
 /**
  * @todo
- * [ ] refactor: findWeekById is redundant since upsertWeek is doing the same
  * [ ] handle deleteById partial error
  */
 
@@ -8,7 +7,7 @@ import * as shiftRepository from "../database/default/repository/shiftRepository
 import { FindManyOptions, FindOneOptions } from "typeorm";
 import Shift from "../database/default/entity/shift";
 import { ICreateShift, IUpdateShift } from "../shared/interfaces";
-import { findById as findWeekById, upsert as upsertWeek } from "./weekUsecase";
+import { findById as findWeekById, insertWithId } from "./weekUsecase";
 
 export const find = async (opts: FindManyOptions<Shift>): Promise<Shift[]> => {
   return shiftRepository.find(opts);
@@ -35,7 +34,7 @@ export const create = async (payload: ICreateShift): Promise<Shift> => {
     const week = await findWeekById(payload.weekId);
 
     if (!week) {
-      await upsertWeek({ id: payload.weekId });
+      await insertWithId(payload.weekId);
     } else {
       if (week.isPublished) {
         throw new Error("Cannot create shift in published week");
@@ -57,7 +56,7 @@ export const updateById = async (
     const week = await findWeekById(payload.weekId);
 
     if (!week) {
-      await upsertWeek({ id: payload.weekId });
+      await insertWithId(payload.weekId);
     } else {
       if (week.isPublished) {
         throw new Error("Cannot update shift in published week");
@@ -72,7 +71,7 @@ export const updateById = async (
 
 export const upsert = async (
   payload: IUpdateShift | IUpdateShift[]
-): Promise<Shift | Shift[]> => {
+): Promise<Shift[]> => {
   const shift = new Shift();
 
   const updatedPayload = Array.isArray(payload)

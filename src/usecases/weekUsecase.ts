@@ -38,9 +38,18 @@ export const upsert = async (payload: IUpsertWeek): Promise<Week> => {
   }
 
   return weekRepository.upsert({
+    ...week,
     id: payload.id,
     isPublished: payload.isPublished,
     publishedAt: payload.publishedAt,
+  });
+};
+
+export const insertWithId = async (id: string): Promise<Week> => {
+  const week = new Week();
+
+  return weekRepository.upsert({
     ...week,
+    id: id,
   });
 };
