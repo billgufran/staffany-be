@@ -2,7 +2,7 @@ import * as typeorm from 'typeorm';
 import * as shiftRepository from '../shiftRepository';
 import Shift from '../../entity/shift';
 
-const _typeorm = { getRepository: typeorm.getRepository };
+// const _typeorm = { getRepository: typeorm.getRepository };
 
 describe('shiftRepository => find', () => {
 	it('find => passed', async () => {
@@ -13,7 +13,7 @@ describe('shiftRepository => find', () => {
 		expectedData.endTime = '04:00:00';
 
 		const getRepositorySpy = jest
-			.spyOn(_typeorm, 'getRepository')
+			.spyOn(typeorm, 'getRepository')
 			.mockReturnValue({
 				find: jest.fn().mockResolvedValue([expectedData]),
 			} as any);
@@ -38,7 +38,7 @@ describe('shiftRepository => findById', () => {
 		expectedData.endTime = '04:00:00';
 
 		const getRepositorySpy = jest
-			.spyOn(_typeorm, 'getRepository')
+			.spyOn(typeorm, 'getRepository')
 			.mockReturnValue({
 				findOne: jest.fn().mockResolvedValue(expectedData),
 			} as any);
@@ -67,7 +67,7 @@ describe('shiftRepository => findOne', () => {
 		expectedData.endTime = '04:00:00';
 
 		const getRepositorySpy = jest
-			.spyOn(_typeorm, 'getRepository')
+			.spyOn(typeorm, 'getRepository')
 			.mockReturnValue({
 				findOne: jest.fn().mockResolvedValue(expectedData),
 			} as any);
@@ -103,7 +103,7 @@ describe('shiftRepository => create', () => {
 		};
 
 		const getRepositorySpy = jest
-			.spyOn(_typeorm, 'getRepository')
+			.spyOn(typeorm, 'getRepository')
 			.mockReturnValue({
 				save: jest.fn().mockResolvedValue(expectedResult),
 			} as any);

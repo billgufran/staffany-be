@@ -48,7 +48,6 @@ export const create = async (req: Request, h: ResponseToolkit) => {
   logger.info("Create shift");
   try {
     const body = req.payload as ICreateShift;
-    console.log(body);
     const data = await shiftUsecase.create(body);
     const res: ISuccessResponse = {
       statusCode: 200,
